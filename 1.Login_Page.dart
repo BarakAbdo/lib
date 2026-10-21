@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '0.myTextFormField.dart';
 import '2.Register_page.dart';
 import '3.home_page.dart';
-
+import 'data/UserService.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +14,75 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _rememberMe = false;
   final _formKey = GlobalKey<FormState>();
+
+
+  final TextEditingController usernamecontroller = TextEditingController();
+  final TextEditingController passwordcontroller = TextEditingController();
+  final UserService userService = UserService();
+  bool isLoading = false;
+
+
+  void login(BuildContext context) async {
+    String username = usernamecontroller.text.trim();
+    String password = passwordcontroller.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter username and password')),
+      );
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final user = await userService.login(username, password);
+
+      if (!context.mounted) return;
+
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+
+          MaterialPageRoute(builder: (context) => HomePage(user['username'],user['userId'],user['email'])),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Invalid username or password'),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            backgroundColor: Colors.amber,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to connect to server'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    usernamecontroller.dispose();
+    passwordcontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +102,21 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const Icon(Icons.local_hospital, size: 80, color: Colors.blue),
                   const SizedBox(height: 20),
-                  const MyTextFormField(name: "Username"),
+
+
+                  MyTextFormField(
+                    name: "Username",
+                    controller: usernamecontroller,
+                  ),
                   const SizedBox(height: 20),
-                  const MyTextFormField(name: "Password", obscureText: true),
+
+                  MyTextFormField(
+                    name: "Password",
+                    obscureText: true,
+                    controller: passwordcontroller,
+                  ),
                   const SizedBox(height: 10),
+
                   Row(
                     children: [
                       Checkbox(
@@ -51,30 +131,32 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   const SizedBox(height: 20),
+
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                       backgroundColor: Colors.blue,
                     ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => const HomePage()),
-                        );
-                      }
-                    },
-                    child: const Text('Login', style: TextStyle(color: Colors.white, fontSize: 18)),
+                    onPressed: isLoading ? null : () => login(context),
+                    child: isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                      'Login',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                   const SizedBox(height: 15),
+
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const RegisterPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const RegisterPage()),
                       );
                     },
-                    child: const Text('تسجيل حساب جديد (Register)', style: TextStyle(fontSize: 16)),
+                    child: const Text('تسجيل حساب جديد (Register)',
+                        style: TextStyle(fontSize: 16)),
                   ),
                 ],
               ),

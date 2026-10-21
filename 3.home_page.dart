@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import '1.Login_Page.dart';
 import '4.profile_page.dart';
+import '5.Categories_Page.dart';
+import '7.Products_Page.dart';
+import 'Cart_Page.dart';
 
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+   HomePage(this.username,this.userId,this.Email,{super.key});
+
+   String username;
+   final int userId ;
+   String Email;
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +26,11 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
             const UserAccountsDrawerHeader(
-              accountName: Text('Medical User'),
-              accountEmail: Text('user@hospital.com'),
+              accountName: Text('Eng. Barak Ghaleb'),
+              accountEmail: Text('barak7244@gmail.com'),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Text('B', style: TextStyle(fontSize: 24, color: Colors.blue)),
+                child: Icon(Icons.person, size: 40, color: Colors.blue),
               ),
               decoration: BoxDecoration(color: Colors.blue),
             ),
@@ -31,6 +39,47 @@ class HomePage extends StatelessWidget {
               title: const Text('Home'),
               onTap: () => Navigator.pop(context),
             ),
+            ListTile(
+              leading: const Icon(Icons.category),
+              title: const Text('Categories'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CategoriesScreen()),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('Products'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  ProductsScreen(userId)),
+                );
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('My Cart'),
+              onTap: () {
+                Navigator.pop(context);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartScreen(userId),
+                  ),
+                );
+              },
+            ),
+
+
+
+
             ListTile(
               leading: const Icon(Icons.person),
               title: const Text('Profile'),
@@ -57,45 +106,10 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: GridView.builder(
-          itemCount: 6,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 0.8,
-          ),
-          itemBuilder: (context, index) {
-            return Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 10),
-                  Image.network(
-                    'https://picsum.photos/200',
-                    width: 100,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(height: 8),
-                  Text('Medical Item ${index + 1}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                  const Spacer(),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, minimumSize: const Size(100, 30)),
-                    onPressed: () {
-                      print('Item ${index + 1} clicked');
-                    },
-                    child: const Text('عرض التفاصيل', style: TextStyle(fontSize: 12, color: Colors.white)),
-                  ),
-                  const SizedBox(height: 10),
-                ],
-              ),
-            );
-          },
+      body: const Center(
+        child: Text(
+          'Welcome to Hospital Management App',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
     );

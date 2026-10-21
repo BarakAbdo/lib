@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '1.Login_Page.dart';
 
 
+
 void main() {
   runApp(const HospitalManagementApp());
 }
@@ -17,7 +18,7 @@ class HospitalManagementApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: LoginPage(),
     );
   }
 }
