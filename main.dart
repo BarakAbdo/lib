@@ -3,7 +3,7 @@ import '1.Login_Page.dart';
 
 
 
-void main() {
+void main() {   
   runApp(const HospitalManagementApp());
 }
 
