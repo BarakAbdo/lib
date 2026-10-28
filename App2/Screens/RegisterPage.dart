@@ -91,7 +91,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 20),
 
-                // استخدام MyTextFormField للإيميل ليكون التصميم موحد
                 MyTextFormField(
                   name: 'Email',
                   controller: emailcontroller,

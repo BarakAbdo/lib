@@ -7,7 +7,6 @@ import 'conncetion.dart';
 
 class OrderService {
 
-  // Make Order
   Future<int> makeOrder(int userId) async {
     final response = await http.post(
       Uri.parse('${ConnectionString.orders}/$userId'),
@@ -21,7 +20,6 @@ class OrderService {
     throw Exception('Failed to create order: ${response.body}');
   }
 
-  // Get My Orders
   Future<List<dynamic>> getMyOrders(int userId) async {
     final response = await http.get(
       Uri.parse('${ConnectionString.orders}/user/$userId'),

@@ -9,7 +9,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = context.watch<UserProvider>();
-    final profileProvider = context.watch<ProfileProvider>(); // مراقبة بروفايدر البروفايل
+    final profileProvider = context.watch<ProfileProvider>();
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.phone, color: Colors.blue),
               title: const Text('Phone Number'),
-              subtitle: Text(profileProvider.phone), // جلب الرقم من البروفايدر
+              subtitle: Text(profileProvider.phone),
               shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: const BorderSide(color: Colors.grey),
@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.local_hospital, color: Colors.blue),
               title: const Text('Department'),
-              subtitle: Text(profileProvider.department), // جلب القسم من البروفايدر
+              subtitle: Text(profileProvider.department),
               shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: const BorderSide(color: Colors.grey),

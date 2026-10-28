@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'App2/Providers/NotificationProvider.dart';
 import 'App2/Screens/loginPage.dart';
 import 'App2/providers/CartProvider.dart';
 import 'App2/providers/OrderProvider.dart';
@@ -8,7 +9,6 @@ import 'App2/providers/ProductProvider.dart';
 import 'App2/providers/ProductDetailsProvider.dart';
 import 'App2/providers/ProfileProvider.dart';
 import 'App2/providers/CategoryProvider.dart';
-
 void main() {
   runApp(
     MultiProvider(
@@ -20,6 +20,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ],
       child: const HospitalManagementApp(),
     ),

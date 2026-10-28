@@ -4,7 +4,7 @@ import '../providers/ProductProvider.dart';
 import 'ProductDetailsPage.dart';
 
 class ProductsScreen extends StatefulWidget {
-  final int userId; // نستقبل الـ userId هنا لكي يتطابق مع استدعاء الـ HomeScreen
+  final int userId;
 
   const ProductsScreen(this.userId, {super.key});
 
@@ -13,12 +13,11 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  final String dashboardUrl = 'https://8wf5wk2w-7269.inc1.devtunnels.ms';
+  final String dashboardUrl = 'https://52dcmx2h-7269.inc1.devtunnels.ms';
 
   @override
   void initState() {
     super.initState();
-    // جلب المنتجات عبر الـ ProductProvider فور فتح الشاشة
     Future.microtask(() =>
         context.read<ProductProvider>().fetchProducts()
     );
@@ -68,7 +67,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ? ''
                   : Uri.parse(dashboardUrl).resolve(imagePath).toString();
 
-              // هنا تم ربط الضغط على المنتج للانتقال لصفحة تفاصيل المنتج
               return InkWell(
                 onTap: () {
                   Navigator.push(

@@ -11,6 +11,6 @@ class ConnectionString
   static const String cart = '$baseUrl/Cart';
   static const String category = '$baseUrl/Categories';
   static const String orders = '$baseUrl/Orders';
-
+  static const String notifications = '$baseUrl/Notifications';
 
 }

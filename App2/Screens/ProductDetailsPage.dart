@@ -16,7 +16,6 @@ class ProductDetailsScreen extends StatelessWidget {
         ? ''
         : Uri.parse(ConnectionString.dashboardUrl).resolve(imagePath).toString();
 
-    // مراقبة حالة التحميل من الـ ProductDetailsProvider
     final detailsProvider = context.watch<ProductDetailsProvider>();
 
     return Scaffold(
@@ -82,12 +81,11 @@ class ProductDetailsScreen extends StatelessWidget {
 
                   ElevatedButton.icon(
                     onPressed: detailsProvider.isLoading
-                        ? null // تعطيل الزر أثناء التحميل
+                        ? null
                         : () async {
                       final userId = context.read<UserProvider>().userId;
                       final productId = product['id'];
 
-                      // استدعاء دالة الإضافة من البروفايدر
                       final success = await detailsProvider.addToCart(userId, productId);
 
                       if (!context.mounted) return;

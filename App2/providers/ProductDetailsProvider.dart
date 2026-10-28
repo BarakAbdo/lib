@@ -8,7 +8,6 @@ class ProductDetailsProvider extends ChangeNotifier {
   bool isLoading = false;
   String? error;
 
-  // دالة إضافة المنتج للسلة مع إدارة حالة التحميل والأخطاء
   Future<bool> addToCart(int userId, int productId) async {
     isLoading = true;
     error = null;

@@ -3,11 +3,10 @@ import 'package:provider/provider.dart';
 import '../providers/UserProvider.dart';
 import 'CartPage.dart';
 import 'CategoriesPage.dart';
+import 'NotificationPage.dart';
 import 'OrderPage.dart';
 import 'ProductPage.dart';
-
 import 'ProfilePage.dart';
-import 'RegisterPage.dart';
 import 'loginPage.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -43,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
-            // زر الانتقال لصفحة المنتجات
+
             ListTile(
               leading: const Icon(Icons.shopping_bag, color: Colors.blue),
               title: const Text('Products'),
@@ -57,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-            // زر الانتقال لصفحة الفئات
+
             ListTile(
               leading: const Icon(Icons.category, color: Colors.orange),
               title: const Text('Categories'),
@@ -71,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-            // زر الانتقال لصفحة السلة
+
             ListTile(
               leading: const Icon(Icons.shopping_cart, color: Colors.indigo),
               title: const Text('My Cart'),
@@ -85,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-            // زر الانتقال لصفحة الطلبات
+
             ListTile(
               leading: const Icon(Icons.list_alt, color: Colors.teal),
               title: const Text('My Orders'),
@@ -99,7 +98,22 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-            // زر الانتقال لصفحة البروفايل
+
+            // **إضافة زر الإشعارات هنا في القائمة الجانبية**
+            ListTile(
+              leading: const Icon(Icons.notifications, color: Colors.amber),
+              title: const Text('Notifications'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NotificationsScreen(userProvider.userId),
+                  ),
+                );
+              },
+            ),
+
             ListTile(
               leading: const Icon(Icons.person, color: Colors.purple),
               title: const Text('Profile'),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/UserProvider.dart';
-import 'myTextFormField.dart'; // استيراد حقل الإدخال المخصص
-import 'RegisterPage.dart';   // استيراد صفحة التسجيل
+import 'myTextFormField.dart';
+import 'RegisterPage.dart';
 import 'homePage.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Form(
-            key: formKey, // ربط الـ Form بالـ Key
+            key: formKey,
             child: Column(
               children: [
                 const SizedBox(height: 50),
@@ -78,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 30),
 
-                // استخدام الحقل المخصص لاسم المستخدم
                 MyTextFormField(
                   name: 'Username',
                   controller: usernameController,
@@ -86,7 +85,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 20),
 
-                // استخدام الحقل المخصص كلمة المرور
                 MyTextFormField(
                   name: 'Password',
                   obscureText: true,
@@ -115,7 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 20),
 
-                // زر الانتقال إلى صفحة التسجيل (Register)
                 TextButton(
                   onPressed: () {
                     Navigator.push(

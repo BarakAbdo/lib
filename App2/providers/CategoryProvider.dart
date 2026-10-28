@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/CategoryService.dart'; // تأكد من مطابقة مسار السيرفس لديك
+import '../data/CategoryService.dart';
 
 class CategoryProvider extends ChangeNotifier {
   final CategoryService categoryService = CategoryService();

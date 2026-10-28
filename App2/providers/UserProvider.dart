@@ -8,7 +8,7 @@ class UserProvider extends ChangeNotifier {
   bool isLoading = false;
   String? error;
 
-  // Login
+
   Future<bool> login(
       String username,
       String password,
@@ -64,7 +64,7 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  // User Data
+
   String get username => user?['username']?.toString() ?? '';
 
   String get email => user?['email']?.toString() ?? '';
@@ -73,7 +73,7 @@ class UserProvider extends ChangeNotifier {
 
   bool get isLoggedIn => user != null;
 
-  // Logout
+
   void logout() {
     user = null;
     error = null;

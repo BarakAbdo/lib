@@ -10,7 +10,6 @@ class ProductProvider extends ChangeNotifier {
   bool isLoading = false;
   String? error;
 
-  // جلب المنتجات باستخدام ProductService
   Future<void> fetchProducts() async {
     isLoading = true;
     error = null;
