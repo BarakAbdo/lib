@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hospital_management_system/data/conncetion.dart';
-
 import 'data/CartService.dart';
+import 'data/conncetion.dart';
+
 
 class ProductDetailsScreen extends StatelessWidget {
   final dynamic product;

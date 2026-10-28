@@ -10,7 +10,7 @@ class ConnectionString
   static const String register = '$baseUrl/Users/register';
   static const String cart = '$baseUrl/Cart';
   static const String category = '$baseUrl/Categories';
-
+  static const String orders = '$baseUrl/Orders';
 
 
 }
