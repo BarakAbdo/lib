@@ -27,86 +27,126 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F7F6),
       appBar: AppBar(
-        title: const Text('My Orders'),
-        backgroundColor: Colors.indigo,
+        title: const Text('My Orders', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        backgroundColor: const Color(0xFF0F172A),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Consumer<OrderProvider>(
         builder: (context, orderProvider, child) {
           if (orderProvider.isLoading) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: Color(0xFF0F172A)),
             );
           }
 
           if (orderProvider.error != null) {
             return Center(
-              child: Text('Error: ${orderProvider.error}'),
+              child: Text('Error: ${orderProvider.error}', style: const TextStyle(color: Colors.redAccent)),
             );
           }
 
           final items = orderProvider.orders;
 
           if (items.isEmpty) {
-            return const Center(
-              child: Text('No Orders Found'),
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.receipt_long_outlined, size: 80, color: Colors.grey[400]),
+                  const SizedBox(height: 15),
+                  Text(
+                    'No Orders Found',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
             );
           }
 
           return RefreshIndicator(
+            color: const Color(0xFF0F172A),
             onRefresh: () => refreshOrders(orderProvider),
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(12),
               itemCount: items.length,
               itemBuilder: (context, index) {
                 final order = items[index];
                 final products = order['items'] as List? ?? [];
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          'Order #${order['id']}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Order #${order['id']}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF0F172A),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF0D9488).withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                '${order['status']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF0D9488),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 10),
                         Text(
                           'Date: ${order['createdAt']}',
-                          style: const TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Colors.grey[600], fontSize: 13),
                         ),
-                        Text(
-                          'Status: ${order['status']}',
-                          style: const TextStyle(fontWeight: FontWeight.w500),
-                        ),
+                        const SizedBox(height: 8),
                         Text(
                           'Total: ${order['totalAmount']} SAR',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: Color(0xFF0D9488),
                             fontSize: 16,
                           ),
                         ),
-                        const Divider(height: 20),
+                        const Divider(height: 24),
                         const Text(
                           'Products:',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: Color(0xFF0F172A),
                           ),
                         ),
-                        const SizedBox(height: 5),
+                        const SizedBox(height: 4),
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -117,14 +157,15 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                               contentPadding: EdgeInsets.zero,
                               title: Text(
                                 product['name']?.toString() ?? '',
-                                style: const TextStyle(fontWeight: FontWeight.w500),
+                                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                               ),
                               subtitle: Text(
                                 'Quantity: ${product['quantity']}',
+                                style: TextStyle(color: Colors.grey[600], fontSize: 12),
                               ),
                               trailing: Text(
                                 '${product['price']} SAR',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F172A)),
                               ),
                             );
                           },

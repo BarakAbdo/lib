@@ -21,21 +21,29 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F7F6),
       appBar: AppBar(
-        title: const Text('Categories'),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          'Categories',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        backgroundColor: const Color(0xFF0F172A),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Consumer<CategoryProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: Color(0xFF0F172A)),
+            );
           }
 
           if (provider.error != null) {
             return Center(
               child: Text(
                 provider.error!,
-                style: const TextStyle(color: Colors.red, fontSize: 16),
+                style: const TextStyle(color: Colors.redAccent, fontSize: 16),
               ),
             );
           }
@@ -43,33 +51,62 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           final categoriesList = provider.categories;
 
           if (categoriesList.isEmpty) {
-            return const Center(child: Text('No Categories Found'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.category_outlined, size: 80, color: Colors.grey[400]),
+                  const SizedBox(height: 15),
+                  Text(
+                    'No Categories Found',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            );
           }
 
           return ListView.builder(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
             itemCount: categoriesList.length,
             itemBuilder: (context, index) {
               final category = categoriesList[index];
 
-              return Card(
-                elevation: 3,
+              return Container(
                 margin: const EdgeInsets.symmetric(vertical: 8),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.04),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
                 ),
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  leading: const CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    child: Icon(Icons.category, color: Colors.white),
+                  leading: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0F172A).withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.medical_services_rounded, color: Color(0xFF0F172A)),
                   ),
                   title: Text(
                     category['name']?.toString() ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF0F172A)),
                   ),
-                  subtitle: Text('UID: ${category['uid'] ?? 'N/A'}'),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      'UID: ${category['uid'] ?? 'N/A'}',
+                      style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                    ),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.grey),
                   onTap: () {},
                 ),
               );

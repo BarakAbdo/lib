@@ -9,6 +9,7 @@ import 'App2/providers/ProductProvider.dart';
 import 'App2/providers/ProductDetailsProvider.dart';
 import 'App2/providers/ProfileProvider.dart';
 import 'App2/providers/CategoryProvider.dart';
+
 void main() {
   runApp(
     MultiProvider(
@@ -20,7 +21,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
-        ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        ChangeNotifierProvider(create: (context) => NotificationProvider()),
       ],
       child: const HospitalManagementApp(),
     ),
@@ -36,9 +37,22 @@ class HospitalManagementApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Hospital Management System',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF0F172A),
+          primary: const Color(0xFF0F172A),
+          secondary: const Color(0xFF0D9488),
+          surface: const Color(0xFFF4F7F6),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF4F7F6),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF0F172A),
+          foregroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+        ),
       ),
-      home: LoginScreen(),
+      home: const LoginScreen(),
     );
   }
 }

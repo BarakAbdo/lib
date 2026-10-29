@@ -13,7 +13,7 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  final String dashboardUrl = 'https://52dcmx2h-7269.inc1.devtunnels.ms';
+  final String dashboardUrl = 'https://71ms79x5-7269.inc1.devtunnels.ms';
 
   @override
   void initState() {
@@ -26,21 +26,24 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F7F6),
       appBar: AppBar(
-        title: const Text('Products'),
-        backgroundColor: Colors.blue,
+        title: const Text('Products', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        backgroundColor: const Color(0xFF0F172A),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Consumer<ProductProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: Color(0xFF0F172A)));
           }
 
           if (provider.error != null) {
             return Center(
               child: Text(
                 provider.error!,
-                style: const TextStyle(color: Colors.red, fontSize: 16),
+                style: const TextStyle(color: Colors.redAccent, fontSize: 16),
               ),
             );
           }
@@ -48,16 +51,28 @@ class _ProductsScreenState extends State<ProductsScreen> {
           final productsList = provider.products;
 
           if (productsList.isEmpty) {
-            return const Center(child: Text('No Products Found'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.inventory_2_outlined, size: 80, color: Colors.grey[400]),
+                  const SizedBox(height: 15),
+                  Text(
+                    'No Products Found',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            );
           }
 
           return GridView.builder(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.75,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 0.72,
             ),
             itemCount: productsList.length,
             itemBuilder: (context, index) {
@@ -76,17 +91,25 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     ),
                   );
                 },
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: ClipRRect(
                           borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(15),
+                            top: Radius.circular(16),
                           ),
                           child: imageUrl.isNotEmpty
                               ? Image.network(
@@ -94,45 +117,57 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             width: double.infinity,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
-                              return const Center(
-                                child: Icon(
-                                  Icons.image_not_supported,
-                                  size: 60,
+                              return Container(
+                                color: Colors.grey[100],
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.image_not_supported_rounded,
+                                    size: 50,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               );
                             },
                           )
-                              : const Center(
-                            child: Icon(
-                              Icons.image,
-                              size: 60,
+                              : Container(
+                            color: Colors.grey[100],
+                            child: const Center(
+                              child: Icon(
+                                Icons.image_rounded,
+                                size: 50,
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          product['name']?.toString() ?? '',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              product['name']?.toString() ?? '',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF0F172A),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              '${product['price']} SAR',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF0D9488),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        '${product['price']} SAR',
-                        style: const TextStyle(
-                          fontSize: 15,
-                          color: Colors.green,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
                     ],
                   ),
                 ),

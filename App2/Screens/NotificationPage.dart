@@ -36,14 +36,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     final items = provider.notifications;
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F7F6),
       appBar: AppBar(
-        title: const Text('Notifications'),
-        backgroundColor: Colors.indigo,
+        title: const Text('Notifications', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        backgroundColor: const Color(0xFF0F172A),
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Builder(
         builder: (context) {
           if (provider.isLoading && items.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: Color(0xFF0F172A)));
           }
 
           if (provider.error != null && items.isEmpty) {
@@ -53,71 +56,104 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 child: Text(
                   provider.error!,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.red, fontSize: 16),
+                  style: const TextStyle(color: Colors.redAccent, fontSize: 16),
                 ),
               ),
             );
           }
 
           if (items.isEmpty) {
-            return const Center(child: Text('No Notifications Found'));
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.notifications_off_outlined, size: 80, color: Colors.grey[400]),
+                  const SizedBox(height: 15),
+                  Text(
+                    'No Notifications Found',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            );
           }
 
           return RefreshIndicator(
+            color: const Color(0xFF0F172A),
             onRefresh: () => provider.refreshNotifications(widget.userId),
             child: ListView.builder(
+              // أضفنا هذه الخصائص لضمان عمل الـ Scroll بسلاسة حتى لو كانت العناصر قليلة أو كثيرة
+              physics: const AlwaysScrollableScrollPhysics(),
+              shrinkWrap: false,
+              padding: const EdgeInsets.all(12),
               itemCount: items.length,
               itemBuilder: (context, index) {
                 final n = items[index];
                 final unread = n['isRead'] == false;
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  color: unread ? const Color(0xFFFFF9E6) : Colors.white,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(
-                      color: unread ? Colors.amber : Colors.transparent,
-                      width: 1,
+                return Container(
+                  margin: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: unread ? const Color(0xFFF8FAFC) : Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: unread ? const Color(0xFF0D9488).withOpacity(0.4) : Colors.transparent,
+                      width: 1.5,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.04),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              unread ? Icons.notifications_active : Icons.notifications_none,
-                              color: unread ? Colors.indigo : Colors.grey,
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: unread ? const Color(0xFF0D9488).withOpacity(0.1) : Colors.grey.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Icon(
+                                unread ? Icons.notifications_active_rounded : Icons.notifications_none_rounded,
+                                color: unread ? const Color(0xFF0D9488) : Colors.grey,
+                                size: 20,
+                              ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 12),
                             Expanded(
                               child: Text(
                                 '${n['title'] ?? 'Notification'}',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: unread ? FontWeight.bold : FontWeight.w600,
+                                  color: const Color(0xFF0F172A),
                                 ),
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 12),
                         Text(
                           '${n['message'] ?? ''}',
-                          style: const TextStyle(fontSize: 15),
+                          style: TextStyle(fontSize: 14, color: Colors.grey[700], height: 1.4),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 12),
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Date: ${_formatDate('${n['createdAt'] ?? ''}')}',
-                            style: const TextStyle(
-                              color: Colors.grey,
+                            _formatDate('${n['createdAt'] ?? ''}'),
+                            style: TextStyle(
+                              color: Colors.grey[500],
                               fontSize: 12,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),

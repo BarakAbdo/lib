@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class MyTextFormField extends StatelessWidget {
@@ -21,18 +19,30 @@ class MyTextFormField extends StatelessWidget {
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: name,
+        labelStyle: TextStyle(color: Colors.grey[600]),
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue, width: 2),
-          borderRadius: BorderRadius.circular(20),
+          borderSide: BorderSide(color: Colors.grey[300]!, width: 1.5),
+          borderRadius: BorderRadius.circular(14),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue, width: 2),
-          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(color: Color(0xFF0F172A), width: 2),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+          borderRadius: BorderRadius.circular(14),
         ),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Please Enter your $name";
+          return "Please enter your $name";
         }
         return null;
       },

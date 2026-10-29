@@ -15,8 +15,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  // أضفنا GlobalKey للتحقق من صحة الحقول باستخدام MyTextFormField
   final formKey = GlobalKey<FormState>();
 
   Future<void> login() async {
@@ -43,7 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(provider.error ?? 'Login failed'),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       );
     }
@@ -59,24 +59,38 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F7F6),
       appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: Colors.indigo,
+        title: const Text('Login', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+        backgroundColor: const Color(0xFF0F172A),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(24),
           child: Form(
             key: formKey,
             child: Column(
               children: [
-                const SizedBox(height: 50),
-                const Icon(
-                  Icons.person,
-                  size: 100,
-                  color: Colors.indigo,
+                const SizedBox(height: 40),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0F172A).withOpacity(0.08),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.local_hospital_rounded,
+                    size: 80,
+                    color: Color(0xFF0F172A),
+                  ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
+                const Text(
+                  'Hospital Portal',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF0F172A)),
+                ),
+                const SizedBox(height: 35),
 
                 MyTextFormField(
                   name: 'Username',
@@ -91,21 +105,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: passwordController,
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 35),
 
                 Consumer<UserProvider>(
                   builder: (context, provider, child) {
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50),
-                        backgroundColor: Colors.indigo,
-                      ),
-                      onPressed: provider.isLoading ? null : login,
-                      child: provider.isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text(
-                        'Login',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                    return SizedBox(
+                      width: double.infinity,
+                      height: 52,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF0F172A),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        onPressed: provider.isLoading ? null : login,
+                        child: provider.isLoading
+                            ? const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
+                        )
+                            : const Text(
+                          'Login',
+                          style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     );
                   },
@@ -124,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: const Text(
                     "Don't have an account? Register",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 15, color: Color(0xFF0D9488), fontWeight: FontWeight.w600),
                   ),
                 ),
               ],
